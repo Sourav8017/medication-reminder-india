@@ -1,10 +1,5 @@
 from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    DateTime,
-    ForeignKey,
-    Boolean
+    Column, Integer, String, DateTime, ForeignKey, Boolean
 )
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -23,11 +18,7 @@ class User(Base):
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    medications = relationship(
-        "UserMedication",
-        back_populates="user",
-        cascade="all, delete"
-    )
+    medications = relationship("UserMedication", back_populates="user", cascade="all, delete")
 
 
 class Medicine(Base):
@@ -36,14 +27,10 @@ class Medicine(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     condition = Column(String, nullable=False)
-    medicine_type = Column(String, nullable=False)
-    risk_if_missed = Column(String, nullable=False)
+    medicine_type = Column(String, nullable=False)   # chronic / acute
+    risk_if_missed = Column(String, nullable=False)  # low / medium / high / very_high
 
-    users = relationship(
-        "UserMedication",
-        back_populates="medicine",
-        cascade="all, delete"
-    )
+    users = relationship("UserMedication", back_populates="medicine", cascade="all, delete")
 
 
 class UserMedication(Base):
@@ -62,26 +49,30 @@ class UserMedication(Base):
     user = relationship("User", back_populates="medications")
     medicine = relationship("Medicine", back_populates="users")
 
-    logs = relationship(
-        "MedicationLog",
-        back_populates="user_medicine",
-        cascade="all, delete"
-    )
+    logs = relationship("MedicationLog", back_populates="user_medicine", cascade="all, delete")
+    schedules = relationship("ReminderSchedule", back_populates="user_medicine", cascade="all, delete")
+
+
+class ReminderSchedule(Base):
+    __tablename__ = "reminder_schedules"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_medication_id = Column(Integer, ForeignKey("user_medications.id"), nullable=False)
+
+    scheduled_time = Column(DateTime, nullable=False)
+    active = Column(Boolean, default=True)
+
+    user_medicine = relationship("UserMedication", back_populates="schedules")
 
 
 class MedicationLog(Base):
     __tablename__ = "medication_logs"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_medication_id = Column(
-        Integer,
-        ForeignKey("user_medications.id"),
-        nullable=False
-    )
+    user_medication_id = Column(Integer, ForeignKey("user_medications.id"), nullable=False)
 
     scheduled_time = Column(DateTime, nullable=False)
     taken = Column(Boolean, default=False)
-
     logged_at = Column(DateTime, default=datetime.utcnow)
 
     user_medicine = relationship("UserMedication", back_populates="logs")

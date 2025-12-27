@@ -3,10 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routes.auth import router as auth_router
 from backend.routes.users import router as users_router
+from backend.routes.medications import router as medications_router
+from backend.routes.reminders import router as reminders_router
 
 app = FastAPI(
     title="Indian Medication Reminder & Health Risk Predictor",
-    description="India-first healthcare AI system using NLEM medicines and synthetic patient data",
+    description="India-first healthcare AI with reminders and ML hooks",
     version="1.0.0"
 )
 
@@ -20,15 +22,13 @@ app.add_middleware(
 
 @app.get("/")
 def root():
-    return {
-        "message": "Indian Medication Reminder Backend Running",
-        "status": "OK"
-    }
+    return {"status": "Backend running"}
 
 @app.get("/health")
-def health_check():
+def health():
     return {"health": "UP"}
 
-# Routers
 app.include_router(auth_router)
 app.include_router(users_router)
+app.include_router(medications_router)
+app.include_router(reminders_router)
