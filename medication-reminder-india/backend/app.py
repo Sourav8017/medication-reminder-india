@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.routes.auth import router as auth_router
+from backend.routes.users import router as users_router
 
 app = FastAPI(
     title="Indian Medication Reminder & Health Risk Predictor",
@@ -28,5 +29,6 @@ def root():
 def health_check():
     return {"health": "UP"}
 
-# Register routers
+# Routers
 app.include_router(auth_router)
+app.include_router(users_router)
