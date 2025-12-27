@@ -1,0 +1,16 @@
+medicine_id,medicine_name,condition,medicine_type,risk_if_missed
+1,Metformin,Type 2 Diabetes,chronic,high
+2,Glimepiride,Type 2 Diabetes,chronic,high
+3,Insulin,Type 2 Diabetes,chronic,very_high
+4,Amlodipine,Hypertension,chronic,high
+5,Atenolol,Hypertension,chronic,high
+6,Losartan,Hypertension,chronic,high
+7,Atorvastatin,Cardiovascular Disease,chronic,medium
+8,Aspirin,Cardiovascular Disease,chronic,high
+9,Clopidogrel,Cardiovascular Disease,chronic,very_high
+10,Salbutamol,Asthma,chronic,medium
+11,Budesonide,Asthma,chronic,high
+12,Amoxicillin,Bacterial Infection,acute,medium
+13,Azithromycin,Bacterial Infection,acute,medium
+14,Cefixime,Bacterial Infection,acute,medium
+15,Paracetamol,Pain Relief,acute,low
